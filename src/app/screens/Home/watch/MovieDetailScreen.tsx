@@ -52,6 +52,8 @@ const MovieDetailScreen = (props: any) => {
   const movieID = movieDetails.id;
 
   const formattedDate = convertDateFormat(movieDate);
+
+  const [movieTitle, setMovieTitle] = useState('');
   const [movieGenres, setMovieGenres] = useState<string[]>([]);
   const [trailerKey, setTrailerKey] = useState('');
   console.log(formattedDate);
@@ -92,6 +94,12 @@ const MovieDetailScreen = (props: any) => {
   const newDynamicTabs = [...dynamicTabs];
 
   //console.log('hello: ', newDynamicTabs);
+
+  //console.log('movie title: ', movieTitle);
+
+  const movieTitleAndDate = { title: movieTitle, date: formattedDate };
+
+  console.log('movie title and date: ', movieTitleAndDate);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -104,8 +112,9 @@ const MovieDetailScreen = (props: any) => {
         const data = await response.json();
         const videoData = await getVideoResponse.json();
 
-        console.log('video url: ', videoData);
-        // Find the object with the name "Official Trailer"
+        //console.log('video url: ', videoData);
+        console.log('this is response: ', data);
+        setMovieTitle(data.title);
         const officialTrailerObject = videoData.results.find(
           (video: { name: string }) => video.name === 'Official Trailer',
         );
@@ -115,7 +124,7 @@ const MovieDetailScreen = (props: any) => {
           ? officialTrailerObject.key
           : null;
 
-        console.log('Official Trailer Key:', officialTrailerKey);
+        //console.log('Official Trailer Key:', officialTrailerKey);
         setTrailerKey(officialTrailerKey);
         setMovieGenres(data.genres);
       } catch (error) {
@@ -129,6 +138,10 @@ const MovieDetailScreen = (props: any) => {
 
   const handleWatchTrailer = () => {
     props.navigation.navigate('trailerScreen', { paramsKey: trailerKey });
+  };
+
+  const handleGetTicketsPress = () => {
+    props.navigation.navigate('seatMapping', { paramsKey: movieTitleAndDate });
   };
 
   return (
@@ -168,6 +181,7 @@ const MovieDetailScreen = (props: any) => {
               mode="contained"
               textColor="white"
               style={styles.button}
+              onPress={handleGetTicketsPress}
               buttonColor={buttonColor}>
               {' '}
               <Text

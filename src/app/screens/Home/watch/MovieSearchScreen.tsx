@@ -1,5 +1,9 @@
 import { FlatList, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
-import { BG_LIGHT, watchScreenBackgroundColor } from '@/constants/Colors';
+import {
+  BG_LIGHT,
+  TextColor,
+  watchScreenBackgroundColor,
+} from '@/constants/Colors';
 import SearchField from '@/shared/SearchField';
 import { View } from 'native-base';
 import GenreItem from '@/shared/GenreItem';
@@ -74,7 +78,12 @@ const MovieSearchScreen = (props: any) => {
             <>
               <View
                 style={{ flexDirection: 'column', width: '100%', padding: 5 }}>
-                <Text style={{ fontFamily: 'Poppins Regular', fontSize: 15 }}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins Regular',
+                    fontSize: 15,
+                    color: TextColor,
+                  }}>
                   {' '}
                   Top Results
                 </Text>
